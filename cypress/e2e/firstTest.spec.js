@@ -99,7 +99,7 @@ describe('Our first suite', () => {
         })
     })
 
-    it.only('Invoke Command', () => {
+    it('Invoke Command', () => {
 
         cy.visit('/')
         cy.contains('Forms').click()
@@ -127,5 +127,18 @@ describe('Our first suite', () => {
             .then(classValue => {
                 expect(classValue).to.contain('checked')
             })
+    })
+
+    it.only('Assert Property', () => {
+
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Datepicker').click()
+
+        cy.contains('nb-card', 'Common Datepicker').find('input').then( input => {
+            cy.wrap(input).click()
+            cy.get('nb-calendar-day-picker').contains('15').click()
+            cy.wrap(input).invoke('prop','value').should('contain','Nov 15, 2022')
+        })
     })
 })
